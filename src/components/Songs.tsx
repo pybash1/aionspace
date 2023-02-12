@@ -11,7 +11,7 @@ const Songs = () => {
         toast.error("Song and artist are required!");
         return;
     }
-    toast.promise(fetch(`http://localhost:5000/${localStorage.getItem("gpttoken")}/generate/songs`, {
+    toast.promise(fetch(`/api/${localStorage.getItem("gpttoken")}/generate/songs`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

@@ -10,7 +10,7 @@ const Summariser = () => {
         toast.error("Text is required!");
         return;
     }
-    toast.promise(fetch(`http://localhost:5000/${localStorage.getItem("gpttoken")}/summarise`, {
+    toast.promise(fetch(`/api/${localStorage.getItem("gpttoken")}/summarise`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

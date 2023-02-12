@@ -10,7 +10,7 @@ const Paraphraser = () => {
         toast.error("Text is required!");
         return;
     }
-    toast.promise(fetch(`http://localhost:5000/${localStorage.getItem("gpttoken")}/paraphrase`, {
+    toast.promise(fetch(`/api/${localStorage.getItem("gpttoken")}/paraphrase`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
