@@ -6,19 +6,19 @@ const Songs = () => {
   const [artist, setArtist] = useState("");
   const [res, setRes] = useState("");
 
-  const generate = async () => {
+  const generate = () => {
     if (!song || !artist) {
         toast.error("Song and artist are required!");
         return;
     }
-    toast.promise(fetch(`/api/${localStorage.getItem("gpttoken")}/generate/songs`, {
+    toast.promise(void fetch(`/api/${localStorage.getItem("gpttoken") as string}/generate/songs`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({song: song, artist: artist})
     }), {
-        success: (res) => { res.json().then(data => setRes(data.text)); return "Recommended songs!" },
+        success: (res) => { res.json().then((data: { text: string; } => setRes(data.text)); return "Recommended songs!" },
         error: "Failed to find recommendations!",
         loading: "Finding recommendations..."
     })

@@ -5,19 +5,19 @@ const Summariser = () => {
   const [text, setText] = useState("");
   const [res, setRes] = useState("");
 
-  const summarise = async () => {
+  const summarise = () => {
     if (!text) {
         toast.error("Text is required!");
         return;
     }
-    toast.promise(fetch(`/api/${localStorage.getItem("gpttoken")}/summarise`, {
+    toast.promise(void fetch(`/api/${localStorage.getItem("gpttoken") as string}/summarise`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({text: text})
     }), {
-        success: (res) => { res.json().then(data => setRes(data.text)); return "Summarised!" },
+        success: (res) => { res.json().then((data: { text: string; } => setRes(data.text)); return "Summarised!" },
         error: "Failed to summarise!",
         loading: "Summarising text..."
     })

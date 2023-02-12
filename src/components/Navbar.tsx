@@ -13,7 +13,7 @@ const Navbar = () => {
         <Link href="/ai" className="hover:text-gray-300 transition ease-in-out duration-300">Content Writer</Link>
         <Link href="/ai" className="hover:text-gray-300 transition ease-in-out duration-300">Song Recommender</Link>
       </div>
-      <Link href="/configure" className="bg-[#6128fc] px-8 py-1.5 rounded-full hover:bg-[#6128fc]/80 transition ease-in-out duration-300">Configure</button>
+      <Link href="/configure" className="bg-[#6128fc] px-8 py-1.5 rounded-full hover:bg-[#6128fc]/80 transition ease-in-out duration-300">Configure</Link>
     </div>
   );
 };

@@ -6,19 +6,19 @@ const IdeaGen = () => {
   const [for_, setFor] = useState("");
   const [res, setRes] = useState("");
 
-  const generate = async () => {
+  const generate = () => {
     if (!topic || !for_) {
         toast.error("Topic and Purpose are required!");
         return;
     }
-    toast.promise(fetch(`/api/${localStorage.getItem("gpttoken")}/generate/ideas`, {
+    toast.promise(void fetch(`/api/${localStorage.getItem("gpttoken") as string}/generate/ideas`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({topic: topic, for: for_})
     }), {
-        success: (res) => { res.json().then(data => setRes(data.text)); return "Generated ideas!" },
+        success: (res) => { res.json().then((data: { text: string; } => setRes(data.text)).catch(e => console.log(e)); return "Generated ideas!" },
         error: "Failed to generate ideas!",
         loading: "Generating ideas..."
     })
