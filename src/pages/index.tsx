@@ -1,9 +1,12 @@
 import { type NextPage } from "next";
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
   const [text, setText] = useState("on Space");
+
+  const router = useRouter();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -15,13 +18,21 @@ const Home: NextPage = () => {
     return () => clearInterval(interval);
   });
 
+  const handleStart = () => {
+    if (!localStorage.getItem("gpttoken")) {
+      void router.push("/configure")
+    } else {
+      void router.push("/ai");
+    }
+  }
+
   return (
     <div className="background-container flex min-h-screen items-center justify-center font-[Raleway] text-white">
       <div className="stars"></div>
       <div className="twinkling"></div>
       <main className="z-[999] flex flex-col items-center justify-center gap-3">
         <Navbar />
-        <div className="uppercase text-sm"></div>
+        <div className="uppercase text-sm text-gray-400 font-medium">AI on Space</div>
         <div className="text-5xl font-bold text-white">
           Explore the Power of GPT
         </div>
@@ -30,7 +41,7 @@ const Home: NextPage = () => {
             {text}
           </div>
         </div>
-        <button className="font-semibold text-lg bg-[#6128fc] px-8 py-1.5 rounded-full hover:bg-[#6128fc]/80 transition ease-in-out duration-300">Get Started</button>
+        <button className="font-semibold text-lg bg-[#6128fc] px-8 py-1.5 rounded-full hover:bg-[#6128fc]/80 transition ease-in-out duration-300" onClick={handleStart}>Get Started</button>
       </main>
     </div>
   );
