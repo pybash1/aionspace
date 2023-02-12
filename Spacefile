@@ -5,3 +5,8 @@ micros:
     src: .
     engine: next
     primary: true
+  - name: gpt
+    src: backend
+    engine: python3.9
+    path: api
+    

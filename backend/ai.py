@@ -3,7 +3,7 @@ import openai
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:3000"])
+CORS(app, origins=["*"])
 
 @app.post("/<apikey>/summarise")
 def summarise(apikey):
@@ -39,4 +39,4 @@ def gensongs(apikey):
     return jsonify({ "text": res["choices"][0]["text"] })
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
