@@ -3,20 +3,14 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Navbar from "../components/Navbar";
-import { env } from "../env.mjs";
 
 const Home: NextPage = () => {
   const [token, setToken] = useState("");
 
-  useEffect(() => {
-    if (localStorage.getItem("gpttoken")) {
-      setToken(localStorage.getItem("gpttoken") as string);
-    }
-  }, []);
-
   const handleSave = async () => {
+    console.log("here")
     const res = await fetch(`/api/settoken`, {
-      method: "PUT",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -27,10 +21,8 @@ const Home: NextPage = () => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const json: { error: string; } = await res.json();
     if (json.error) {
-      toast.error("Failed to update!")
-    } else {
+      toast.error("Failed to update!"); return; }
       toast.success("Updated successfully!")
-    }
   }
 
   return (
@@ -48,7 +40,8 @@ const Home: NextPage = () => {
                 onChange={(e) => setToken(e.target.value)}
                 className="w-full rounded-md bg-gray-300 px-3 py-2 font-medium text-black outline-none"
             />
-            <button className="rounded-full px-3 py-1.5 bg-[#6128fc]" onClick={void handleSave}>Update</button>
+            {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+            <button className="rounded-full px-3 py-1.5 bg-[#6128fc]" onClick={handleSave}>Update</button>
           </div>
         </div>
         <div className="pt-6">
