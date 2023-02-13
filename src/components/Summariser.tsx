@@ -10,14 +10,16 @@ const Summariser = () => {
         toast.error("Text is required!");
         return;
     }
-    toast.promise(void fetch(`/api/${localStorage.getItem("gpttoken") as string}/summarise`, {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    toast.promise(fetch(`/api/${localStorage.getItem("gpttoken") as string}/summarise`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({text: text})
     }), {
-        success: (res) => { res.json().then((data: { text: string; } => setRes(data.text)); return "Summarised!" },
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        success: (res) => { res.json().then((data: { text: string; }) => setRes(data.text)); return "Summarised!" },
         error: "Failed to summarise!",
         loading: "Summarising text..."
     })

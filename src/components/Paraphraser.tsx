@@ -10,14 +10,16 @@ const Paraphraser = () => {
         toast.error("Text is required!");
         return;
     }
-    toast.promise(void fetch(`/api/${localStorage.getItem("gpttoken") as string}/paraphrase`, {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    toast.promise(fetch(`/api/${localStorage.getItem("gpttoken") as string}/paraphrase`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({text: text})
     }), {
-        success: (res) => { res.json().then((data: { text: string; } => setRes(data.text)); return "Paraphrased!" },
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        success: (res) => { res.json().then((data: { text: string; }) => setRes(data.text)); return "Paraphrased!" },
         error: "Failed to paraphrase!",
         loading: "Paraphrasing text..."
     })

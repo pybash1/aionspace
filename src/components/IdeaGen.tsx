@@ -11,7 +11,7 @@ const IdeaGen = () => {
         toast.error("Topic and Purpose are required!");
         return;
     }
-    // @eslint-ignore 
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     toast.promise(fetch(`/api/${localStorage.getItem("gpttoken") as string}/generate/ideas`, {
         method: "POST",
         headers: {
@@ -19,7 +19,7 @@ const IdeaGen = () => {
         },
         body: JSON.stringify({topic: topic, for: for_})
     }), {
-        success: (res) => { res.json().then((data: { text: string; } => setRes(data.text)).catch(e => console.log(e)); return "Generated ideas!" },
+        success: (res) => { res.json().then((data: { text: string; }) => setRes(data.text)).catch(e => console.log(e)); return "Generated ideas!" },
         error: "Failed to generate ideas!",
         loading: "Generating ideas..."
     })

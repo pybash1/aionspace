@@ -11,14 +11,16 @@ const Songs = () => {
         toast.error("Song and artist are required!");
         return;
     }
-    toast.promise(void fetch(`/api/${localStorage.getItem("gpttoken") as string}/generate/songs`, {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    toast.promise(fetch(`/api/${localStorage.getItem("gpttoken") as string}/generate/songs`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({song: song, artist: artist})
     }), {
-        success: (res) => { res.json().then((data: { text: string; } => setRes(data.text)); return "Recommended songs!" },
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        success: (res) => { res.json().then((data: { text: string; }) => setRes(data.text)); return "Recommended songs!" },
         error: "Failed to find recommendations!",
         loading: "Finding recommendations..."
     })
