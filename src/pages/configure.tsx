@@ -48,7 +48,7 @@ const Home: NextPage = () => {
                 onChange={(e) => setToken(e.target.value)}
                 className="w-full rounded-md bg-gray-300 px-3 py-2 font-medium text-black outline-none"
             />
-            <button className="rounded-full px-3 py-1.5 bg-[#6128fc]" onClick={() => handleSave}>Update</button>
+            <button className="rounded-full px-3 py-1.5 bg-[#6128fc]" onClick={void handleSave}>Update</button>
           </div>
         </div>
         <div className="pt-6">
