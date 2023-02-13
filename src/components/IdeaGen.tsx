@@ -11,7 +11,8 @@ const IdeaGen = () => {
         toast.error("Topic and Purpose are required!");
         return;
     }
-    toast.promise(void fetch(`/api/${localStorage.getItem("gpttoken") as string}/generate/ideas`, {
+    // @eslint-ignore 
+    toast.promise(fetch(`/api/${localStorage.getItem("gpttoken") as string}/generate/ideas`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
