@@ -55,9 +55,9 @@ const Home: NextPage = () => {
               onChange={(e) => setToken(e.target.value)}
               className="w-full rounded-md bg-gray-300 px-3 py-2 font-medium text-black outline-none"
             />
-            {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
             <button
               className="rounded-full bg-[#6128fc] px-3 py-1.5"
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onClick={handleSave}
             >
               Update
