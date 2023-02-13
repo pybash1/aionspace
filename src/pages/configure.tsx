@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Navbar from "../components/Navbar";
+import { env } from "../env.mjs";
 
 const Home: NextPage = () => {
   const [token, setToken] = useState("");
@@ -12,6 +13,26 @@ const Home: NextPage = () => {
       setToken(localStorage.getItem("gpttoken") as string);
     }
   }, []);
+
+  const handleSave = async () => {
+    const res = await fetch(`/api/settoken`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-Key": env.NEXT_PUBLIC_DETA_KEY
+      },
+      body: JSON.stringify({
+        value: token
+      })
+    });
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const json: { error: string; } = await res.json();
+    if (json.error) {
+      toast.error("Failed to update!")
+    } else {
+      toast.success("Updated successfully!")
+    }
+  }
 
   return (
     <div className="background-container flex min-h-screen font-[Raleway] text-white">
@@ -28,7 +49,7 @@ const Home: NextPage = () => {
                 onChange={(e) => setToken(e.target.value)}
                 className="w-full rounded-md bg-gray-300 px-3 py-2 font-medium text-black outline-none"
             />
-            <button className="rounded-full px-3 py-1.5 bg-[#6128fc]" onClick={() => {localStorage.setItem("gpttoken", token); toast.success("Saved!")}}>Update</button>
+            <button className="rounded-full px-3 py-1.5 bg-[#6128fc]" onClick={() => handleSave}>Update</button>
           </div>
         </div>
         <div className="pt-6">

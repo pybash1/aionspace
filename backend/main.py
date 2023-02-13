@@ -14,7 +14,7 @@ db = deta.Base("gpt")
 def summarise():
     apikey = db.get("token")
     if not apikey:
-        return jsonify({"error": "token not found"})
+        return jsonify({"error": "token not found"}), 401, 401
     try:
         openai.api_key = apikey
         res = openai.Completion.create(
@@ -26,19 +26,25 @@ def summarise():
             max_tokens=2000,
         )
     except openai.error.RateLimitError:
-        return jsonify({"error": "exceeded quota"})
+        return jsonify({"error": "exceeded quota"}), 403, 403
     except openai.error.AuthenticationError:
-        return jsonify({"error": "invalid token"})
+        return jsonify({"error": "invalid token"}), 401, 401
     except:
         return jsonify({"error": "other error"})
     return jsonify({"text": res["choices"][0]["text"]})
+
+
+@app.post("/settoken")
+def set_token():
+    db.put({"key": "token", "value": request.get_json()["value"]})
+    return jsonify({"details": "success"})
 
 
 @app.post("/paraphrase")
 def paraphrase():
     apikey = db.get("token")
     if not apikey:
-        return jsonify({"error": "token not found"})
+        return jsonify({"error": "token not found"}), 401
     try:
         openai.api_key = apikey
         res = openai.Completion.create(
@@ -50,9 +56,9 @@ def paraphrase():
             max_tokens=2000,
         )
     except openai.error.RateLimitError:
-        return jsonify({"error": "exceeded quota"})
+        return jsonify({"error": "exceeded quota"}), 403
     except openai.error.AuthenticationError:
-        return jsonify({"error": "invalid token"})
+        return jsonify({"error": "invalid token"}), 401
     except:
         return jsonify({"error": "other error"})
     return jsonify({"text": res["choices"][0]["text"]})
@@ -62,7 +68,7 @@ def paraphrase():
 def genideas():
     apikey = db.get("token")
     if not apikey:
-        return jsonify({"error": "token not found"})
+        return jsonify({"error": "token not found"}), 401
     try:
         openai.api_key = apikey
         res = openai.Completion.create(
@@ -75,9 +81,9 @@ Purpose: {request.get_json()["for"]}
             max_tokens=2000,
         )
     except openai.error.RateLimitError:
-        return jsonify({"error": "exceeded quota"})
+        return jsonify({"error": "exceeded quota"}), 403
     except openai.error.AuthenticationError:
-        return jsonify({"error": "invalid token"})
+        return jsonify({"error": "invalid token"}), 401
     except:
         return jsonify({"error": "other error"})
     return jsonify({"text": res["choices"][0]["text"]})
@@ -87,7 +93,7 @@ Purpose: {request.get_json()["for"]}
 def gensongs():
     apikey = db.get("token")
     if not apikey:
-        return jsonify({"error": "token not found"})
+        return jsonify({"error": "token not found"}), 401
     try:
         openai.api_key = apikey
         res = openai.Completion.create(
@@ -99,9 +105,9 @@ def gensongs():
             max_tokens=2000,
         )
     except openai.error.RateLimitError:
-        return jsonify({"error": "exceeded quota"})
+        return jsonify({"error": "exceeded quota"}), 403
     except openai.error.AuthenticationError:
-        return jsonify({"error": "invalid token"})
+        return jsonify({"error": "invalid token"}), 401
     except:
         return jsonify({"error": "other error"})
     return jsonify({"text": res["choices"][0]["text"]})

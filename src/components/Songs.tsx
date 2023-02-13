@@ -6,31 +6,53 @@ const Songs = () => {
   const [artist, setArtist] = useState("");
   const [res, setRes] = useState("");
 
-  const generate = () => {
+  const generate = async () => {
     if (!song || !artist) {
         toast.error("Song and artist are required!");
         return;
     }
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    toast.promise(fetch(`/api/${localStorage.getItem("gpttoken") as string}/generate/songs`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({song: song, artist: artist})
-    }), {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        success: (res) => { res.json().then((data: { text: string; }) => setRes(data.text)); return "Recommended songs!" },
-        error: "Failed to find recommendations!",
-        loading: "Finding recommendations..."
-    })
+    const tid = toast.loading("Generating recommendations...");
+
+    const res = await fetch(`/api/generate/songs`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ songs: song, artist: artist }),
+    });
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const data: { error?: string; text?: string } = await res.json();
+    if (data.error) {
+      if (data.error === "token not found") {
+        toast.error("Please configure AI on Space first!", {
+          id: tid
+        })
+      } else if (data.error === "exceeded quota") {
+        toast.error("You're out of credits!", {
+          id: tid
+        })
+      } else if (data.error === "invalid token") {
+        toast.error("Invalid OpenAI API key provided!", {
+          id: tid
+        })
+      } else {
+        toast.error("Failed to generate!", {
+          id: tid
+        })
+      }
+    } else {
+      setRes(data.text as string)
+      toast.success("Generated reccommendations!", {
+        id: tid
+      })
+    }
   };
 
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-row justify-between items-center">
         <div className="text-4xl font-bold">Song Recommender</div>
-        <button className="rounded-full px-3 py-1.5 bg-[#6128fc]" onClick={generate}>Recommend</button>
+        <button className="rounded-full px-3 py-1.5 bg-[#6128fc]" onClick={void generate}>Recommend</button>
       </div>
       <div className="grid w-[70vw] grid-cols-2 gap-6">
         <div className="flex flex-col gap-2">
