@@ -19,7 +19,6 @@ const Home: NextPage = () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "X-API-Key": env.NEXT_PUBLIC_DETA_KEY
       },
       body: JSON.stringify({
         value: token
