@@ -15,10 +15,19 @@ const Home: NextPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (!localStorage.getItem("gpttoken")) {
-      void router.push("/configure");
-      toast.error("Please configure AI on Space first!");
-    }
+    fetch("/api/gettoken")
+      .then((res) =>
+        res
+          .json()
+          .then((data: { token: string }) => {
+            if (!data.token) {
+              void router.push("/configure");
+              toast.error("Please configure AI on Space first!");
+            }
+          })
+          .catch((e) => console.log(e))
+      )
+      .catch((e) => console.log(e));
   }, []);
 
   return (
@@ -28,19 +37,34 @@ const Home: NextPage = () => {
       <Navbar />
       <main className="z-[999] mt-[100px] flex flex-row">
         <aside className="flex h-full flex-col items-start gap-16 px-14 py-10 text-white">
-          <button className="transition duration-300 ease-in-out hover:text-gray-300" onClick={() => setMain(<Summariser />)}>
+          <button
+            className="transition duration-300 ease-in-out hover:text-gray-300"
+            onClick={() => setMain(<Summariser />)}
+          >
             Summariser
           </button>
-          <button className="transition duration-300 ease-in-out hover:text-gray-300" onClick={() => setMain(<Paraphraser />)}>
+          <button
+            className="transition duration-300 ease-in-out hover:text-gray-300"
+            onClick={() => setMain(<Paraphraser />)}
+          >
             Paraphraser
           </button>
-          <button className="transition duration-300 ease-in-out hover:text-gray-300" onClick={() => setMain(<IdeaGen />)}>
+          <button
+            className="transition duration-300 ease-in-out hover:text-gray-300"
+            onClick={() => setMain(<IdeaGen />)}
+          >
             Idea Generator
           </button>
-          <button className="transition duration-300 ease-in-out hover:text-gray-300" onClick={() => setMain(<Content />)}>
+          <button
+            className="transition duration-300 ease-in-out hover:text-gray-300"
+            onClick={() => setMain(<Content />)}
+          >
             Content Wrier
           </button>
-          <button className="transition duration-300 ease-in-out hover:text-gray-300" onClick={() => setMain(<Songs />)}>
+          <button
+            className="transition duration-300 ease-in-out hover:text-gray-300"
+            onClick={() => setMain(<Songs />)}
+          >
             Song Recommender
           </button>
         </aside>

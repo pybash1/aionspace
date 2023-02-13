@@ -34,6 +34,12 @@ def summarise():
     return jsonify({"text": res["choices"][0]["text"]})
 
 
+@app.get("/gettoken")
+def get_token():
+    token = db.get("token")
+    return jsonify({"token": token})
+
+
 @app.post("/settoken")
 def set_token():
     db.put({"key": "token", "value": request.get_json()["value"]})

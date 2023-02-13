@@ -7,23 +7,38 @@ import Navbar from "../components/Navbar";
 const Home: NextPage = () => {
   const [token, setToken] = useState("");
 
+  useEffect(() => {
+    fetch("/api/gettoken")
+      .then((res) =>
+        res
+          .json()
+          .then((data: { token: string }) => {
+            setToken(data.token);
+          })
+          .catch((e) => console.log(e))
+      )
+      .catch((e) => console.log(e));
+  });
+
   const handleSave = async () => {
-    console.log("here")
+    console.log("here");
     const res = await fetch(`/api/settoken`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        value: token
-      })
+        value: token,
+      }),
     });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const json: { error: string; } = await res.json();
+    const json: { error: string } = await res.json();
     if (json.error) {
-      toast.error("Failed to update!"); return; }
-      toast.success("Updated successfully!")
-  }
+      toast.error("Failed to update!");
+      return;
+    }
+    toast.success("Updated successfully!");
+  };
 
   return (
     <div className="background-container flex min-h-screen font-[Raleway] text-white">
@@ -36,12 +51,17 @@ const Home: NextPage = () => {
           <label className="font-semibold">OpenAI API Key</label>
           <div className="flex flex-row gap-6">
             <input
-                value={token}
-                onChange={(e) => setToken(e.target.value)}
-                className="w-full rounded-md bg-gray-300 px-3 py-2 font-medium text-black outline-none"
+              value={token}
+              onChange={(e) => setToken(e.target.value)}
+              className="w-full rounded-md bg-gray-300 px-3 py-2 font-medium text-black outline-none"
             />
             {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-            <button className="rounded-full px-3 py-1.5 bg-[#6128fc]" onClick={handleSave}>Update</button>
+            <button
+              className="rounded-full bg-[#6128fc] px-3 py-1.5"
+              onClick={handleSave}
+            >
+              Update
+            </button>
           </div>
         </div>
         <div className="pt-6">
