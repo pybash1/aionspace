@@ -53,7 +53,8 @@ const Summariser = () => {
         <div className="text-4xl font-bold">Text Summariser</div>
         <button
           className="rounded-full bg-[#6128fc] px-3 py-1.5"
-          onClick={void summarise}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onClick={summarise}
         >
           Summarise
         </button>

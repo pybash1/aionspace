@@ -51,7 +51,8 @@ const Paraphraser = () => {
     <div className="flex flex-col gap-6">
       <div className="flex flex-row justify-between items-center">
         <div className="text-4xl font-bold">Text Paraphraser</div>
-        <button className="rounded-full px-3 py-1.5 bg-[#6128fc]" onClick={void paraphrase}>Paraphrase</button>
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+        <button className="rounded-full px-3 py-1.5 bg-[#6128fc]" onClick={paraphrase}>Paraphrase</button>
       </div>
       <div className="grid h-[65vh] w-[70vw] grid-cols-2 gap-6">
         <textarea className="h-full w-full resize-none rounded-md bg-gray-300 px-3 py-2 font-medium text-black outline-none" placeholder="Enter text to paraphrase" value={text} onChange={(e) => setText(e.target.value)}></textarea>

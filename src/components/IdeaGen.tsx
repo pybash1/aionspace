@@ -52,7 +52,8 @@ const IdeaGen = () => {
     <div className="flex flex-col gap-6">
       <div className="flex flex-row justify-between items-center">
         <div className="text-4xl font-bold">Idea Generator</div>
-        <button className="rounded-full px-3 py-1.5 bg-[#6128fc]" onClick={void generate}>Generate</button>
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+        <button className="rounded-full px-3 py-1.5 bg-[#6128fc]" onClick={generate}>Generate</button>
       </div>
       <div className="grid w-[70vw] grid-cols-2 gap-6">
         <div className="flex flex-col gap-2">
