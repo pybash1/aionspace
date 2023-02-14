@@ -6,7 +6,7 @@ import os
 
 app = Flask(__name__)
 CORS(app, origins=["*"])
-deta = Deta("c0i9lcr1_KjUmeh3NNo9CoGKfiSyeN6ggkFdRrLzz")
+deta = Deta(os.getenv("DETA_PROJECT_KEY"))
 db = deta.Base("gpt")
 
 
