@@ -7,6 +7,7 @@ import os
 app = Flask(__name__)
 CORS(app, origins=["*"])
 deta = Deta(os.getenv("DETA_PROJECT_KEY"))
+# deta = Deta("not this time baby")
 db = deta.Base("gpt")
 
 

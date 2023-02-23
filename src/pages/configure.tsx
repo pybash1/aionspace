@@ -12,13 +12,13 @@ const Home: NextPage = () => {
       .then((res) =>
         res
           .json()
-          .then((data: { token: string }) => {
-            setToken(data.token);
+          .then((data: { token: { value: string; } }) => {
+            setToken(data.token.value);
           })
           .catch((e) => console.log(e))
       )
       .catch((e) => console.log(e));
-  });
+  }, []);
 
   const handleSave = async () => {
     console.log("here");
